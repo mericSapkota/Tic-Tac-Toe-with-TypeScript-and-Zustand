@@ -1,1 +1,16 @@
-{}
+{
+  "name": "tic-tac-toe-with-typescript-and-zustand",
+  "version": "1.0.0",
+  "description": "Tic Tac Toe game built with React, TypeScript, and Zustand",
+  "private": true,
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "zustand": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.3.0"
+  }
+}
