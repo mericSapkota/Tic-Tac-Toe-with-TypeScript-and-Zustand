@@ -201,15 +201,17 @@ interface BoardProps {
 const Square: React.FC<SquareProps> = ({ value, onSquareClick }) => {
   return (
     <button
-      // Inline styles keep this file self-contained (no separate CSS needed).
-      style={{
-        width: 60,
-        height: 60,
-        fontSize: 24,
-        fontWeight: 'bold',
-        cursor: 'pointer',
-        margin: 2,
-      }}
+      // Tailwind classes replace inline styles — each class maps to one CSS rule:
+      //   w-16 h-16  → width/height 4rem (64px)
+      //   text-2xl   → font-size 1.5rem
+      //   font-bold  → font-weight 700
+      //   cursor-pointer → cursor: pointer
+      //   m-0.5      → margin 2px
+      //   border-2 border-gray-400 → visible cell border
+      //   rounded    → slightly rounded corners
+      //   bg-white hover:bg-gray-100 → subtle hover feedback
+      //   transition-colors → smooth color change on hover
+      className="w-16 h-16 text-2xl font-bold cursor-pointer m-0.5 border-2 border-gray-400 rounded bg-white hover:bg-gray-100 transition-colors"
       onClick={onSquareClick}
     >
       {/* value is SquareValue — React renders null as nothing, which is fine */}
@@ -258,14 +260,15 @@ const Board: React.FC<BoardProps> = ({ xIsNext, squares, onPlay }) => {
 
   return (
     <div>
-      <p style={{ fontWeight: 'bold', marginBottom: 8 }}>{status}</p>
+      {/* Status text — bold and with bottom spacing */}
+      <p className="font-bold mb-2 text-lg">{status}</p>
 
       {/* Row 0: squares 0-2 */}
-      <div style={{ display: 'flex' }}>{[0, 1, 2].map(renderSquare)}</div>
+      <div className="flex">{[0, 1, 2].map(renderSquare)}</div>
       {/* Row 1: squares 3-5 */}
-      <div style={{ display: 'flex' }}>{[3, 4, 5].map(renderSquare)}</div>
+      <div className="flex">{[3, 4, 5].map(renderSquare)}</div>
       {/* Row 2: squares 6-8 */}
-      <div style={{ display: 'flex' }}>{[6, 7, 8].map(renderSquare)}</div>
+      <div className="flex">{[6, 7, 8].map(renderSquare)}</div>
     </div>
   )
 }
@@ -333,15 +336,30 @@ const Game: React.FC = () => {
       move > 0 ? `Go to move #${move}` : 'Go to game start'
 
     return (
-      <li key={move} style={{ marginBottom: 4 }}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+      <li key={move} className="mb-1">
+        <button
+          // px-3 py-1   → horizontal/vertical padding
+          // rounded     → rounded corners
+          // border border-gray-300 → subtle border
+          // hover:bg-gray-100 → hover feedback
+          // text-sm     → readable but compact text
+          // cursor-pointer → shows pointer on hover
+          className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100 text-sm cursor-pointer"
+          onClick={() => jumpTo(move)}
+        >
+          {description}
+        </button>
       </li>
     )
   })
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
-    <div style={{ display: 'flex', gap: 24, padding: 16, fontFamily: 'sans-serif' }}>
+    // flex gap-6 p-4 → horizontal layout with gap and padding
+    // font-sans      → clean sans-serif font
+    // min-h-screen   → fills the viewport height
+    // bg-gray-50     → very light grey page background
+    <div className="flex gap-6 p-4 font-sans min-h-screen bg-gray-50">
       {/* Left side: the game board */}
       <div>
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
@@ -349,8 +367,8 @@ const Game: React.FC = () => {
 
       {/* Right side: the move history list */}
       <div>
-        <h3 style={{ marginTop: 0 }}>Move history</h3>
-        <ol style={{ paddingLeft: 20, margin: 0 }}>{moves}</ol>
+        <h3 className="mt-0 mb-2 text-lg font-semibold">Move history</h3>
+        <ol className="pl-5 m-0 list-decimal">{moves}</ol>
       </div>
     </div>
   )
